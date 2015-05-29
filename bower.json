@@ -1,0 +1,18 @@
+{
+  "name": "MeanStackTutorial",
+  "version": "0.0.0",
+  "homepage": "https://github.com/JeremyCarlsten/MeanStackTutorial",
+  "authors": [
+    "jeremyCarlsten jeremy@jjeremyCarlsten.com"
+  ],
+  "description": "Extreme Tech Training",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/vendor",
+    "test",
+    "tests"
+  ]
+}
