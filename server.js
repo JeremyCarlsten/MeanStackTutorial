@@ -29,6 +29,10 @@ app.use(express.static(__dirname + '/public'));
 // *******************************************
 //    - route '/*' or '*' accepts all routes
 
+app.get('/partials/:partialsPath', function(request, response){
+  response.render('partials/'+ request.params.partialsPath)
+});
+
 app.get('*', function(request, response){
   response.render('index');
 });
