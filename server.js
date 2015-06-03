@@ -1,12 +1,13 @@
 var express = require('express'),
-    stylus= require('stylus'),
-    logger = require('morgan'),
-    bodyParser = require('body-parser');
+        stylus = require('stylus'),
+        logger = require('morgan'),
+        mongoose = require('mongoose'),
+        bodyParser = require('body-parser');
 
-var env = process.env.NODE_ENV = process.env.NODE_ENV  || "development";
+var env = process.env.NODE_ENV = process.env.NODE_ENV || "development";
 var app = express();
 
-function compile(str, path){
+function compile(str, path) {
   return stylus(str).set('filename', path);
 }
 
@@ -25,17 +26,33 @@ app.use(stylus.middleware({
 
 app.use(express.static(__dirname + '/public'));
 
+mongoose.connect('mongodb://localhost/meanTutorial');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection'));
+db.once('open', function(){
+  console.log("database is opened");
+});
+
+var messageSchema = mongoose.Schema({message: String});
+var mongoMessage;
+var Message = mongoose.model('Message', messageSchema);
+Message.findOne().exec(function(err, messageDoc){
+  mongoMessage = messageDoc.message;
+});
+
 // Notes:
 // *******************************************
 //    - route '/*' or '*' accepts all routes
 
-app.get('/partials/:partialsPath', function(request, response){
-  response.render('partials/'+ request.params.partialsPath)
+app.get('/partials/:partialsPath', function (request, response) {
+  response.render('partials/' + request.params.partialsPath)
 });
 
-app.get('*', function(request, response){
-  response.render('index');
+app.get('*', function (request, response) {
+  response.render('index', {
+    mongoMessage: mongoMessage
+  });
 });
 
 app.listen(PORT);
-console.log("Listening on port " +PORT+ " ...");
+console.log("Listening on port " + PORT + " ...");
