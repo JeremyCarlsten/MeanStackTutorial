@@ -42,8 +42,8 @@ db.once('open', function () {
 // *******************************************
 //    - route '/*' or '*' accepts all routes
 
-app.get('/partials/:partialsPath', function (request, response) {
-    response.render('partials/' + request.params.partialsPath)
+app.get('/partials/*', function (request, response) {
+    response.render('../../public/app/' + request.params[0])
 });
 
 app.get('*', function (request, response) {
