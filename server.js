@@ -7,12 +7,11 @@ var express = require('express'),
 var env = process.env.NODE_ENV = process.env.NODE_ENV || "development";
 var app = express();
 
+var config = require('./server/config/config')[env];
+
 function compile(str, path) {
     return stylus(str).set('filename', path);
 }
-
-var PORT = process.env.PORT || 3030;
-
 
 app.set('views', __dirname + '/server/views');
 app.set('view engine', 'jade');
@@ -25,30 +24,10 @@ app.use(stylus.middleware({
 }));
 
 app.use(express.static(__dirname + '/public'));
-console.log("Environment: " + env)
-if (env == 'development') {
-    mongoose.connect('mongodb://localhost/meanTutorial');
-}
-else {
-    mongoose.connect('mongodb://jcarlsten:password@ds043012.mongolab.com:43012/meantutorial');
-}
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection'));
-db.once('open', function () {
-    console.log("database is opened");
-});
 
-// Notes:
-// *******************************************
-//    - route '/*' or '*' accepts all routes
+require('./server/config/mongoose')(config);
+require('./server/config/routes')(app);
 
-app.get('/partials/*', function (request, response) {
-    response.render('../../public/app/' + request.params[0])
-});
 
-app.get('*', function (request, response) {
-    response.render('index');
-});
-
-app.listen(PORT);
-console.log("Listening on port " + PORT + " ...");
+app.listen(config.port);
+console.log("Listening on port " + config.port + " ...");
