@@ -38,13 +38,6 @@ db.once('open', function () {
     console.log("database is opened");
 });
 
-var messageSchema = mongoose.Schema({message: String});
-var mongoMessage;
-var Message = mongoose.model('Message', messageSchema);
-Message.findOne().exec(function (err, messageDoc) {
-    mongoMessage = messageDoc.message;
-});
-
 // Notes:
 // *******************************************
 //    - route '/*' or '*' accepts all routes
@@ -54,9 +47,7 @@ app.get('/partials/:partialsPath', function (request, response) {
 });
 
 app.get('*', function (request, response) {
-    response.render('index', {
-        mongoMessage: mongoMessage
-    });
+    response.render('index');
 });
 
 app.listen(PORT);
