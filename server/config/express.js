@@ -3,7 +3,6 @@ var express = require('express'),
         bodyParser = require('body-parser'),
         stylus = require('stylus');
 
-
 module.exports = function (app, config) {
 
   function compile(str, path) {
@@ -15,10 +14,11 @@ module.exports = function (app, config) {
   app.use(logger('dev'));
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
+  app.use(express.static(config.rootPath + '/public'));
+
   app.use(stylus.middleware({
-    src: config.rootpath + '/public',
+    src: config.rootPath + '/public',
     compile: compile
   }));
 
-  app.use(express.static(config.rootpath + '/public'));
 };
