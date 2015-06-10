@@ -1,5 +1,11 @@
-angular.module('app').controller('mvNavBarLoginController', function($scope){
+angular.module('app').controller('mvNavBarLoginController', function($scope, $http){
   $scope.signin = function(username, password){
-    console.log("Attempting to login...");
+    $http.post('/login', {username: username, password: password}).then(function(response){
+      if(response.data.success){
+        console.log("logged IN!");
+      }else{
+        console.log("Failed! ");
+      }
+    });
   };
 });
