@@ -30,7 +30,8 @@
     "morgan": "^1.5.3",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
-    "stylus": "^0.51.1"
+    "stylus": "^0.51.1",
+    "toastr": "^2.0.4"
   },
   "devDependencies": {
     "express": "^4.12.4",
