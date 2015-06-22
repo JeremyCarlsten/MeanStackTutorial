@@ -30,7 +30,6 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (id, done) {
   User.findOne({__id: id}).exec(function (err, user) {
-    console.log("found " + user.length + " users");
     if (user) {
       return done(null, user);
     }

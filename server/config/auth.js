@@ -6,11 +6,13 @@ exports.authenticate = function (request, response, next) {
         if (!user) {
             response.send({success: false})
         }
-    });
-    request.logIn(user, function (err) {
-        if (err) return next(err);
 
-        response.send({success: true, user: user})
+        request.logIn(user, function (err) {
+            if (err) return next(err);
+
+            response.send({success: true, user: user})
+        });
     });
+
     auth(request, response, next);
 };
