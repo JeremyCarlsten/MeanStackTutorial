@@ -12,6 +12,15 @@
               });
 
               return defered.promise;
+          },
+          logoutUser: function(){
+              var defered = $q.defer();
+              $http.post('/logout', {logout: true}).then(function(){
+                 mvIdentity.currentUser = undefined;
+                  defered.resolve();
+              });
+
+              return defered.promise;
           }
       }
     });
