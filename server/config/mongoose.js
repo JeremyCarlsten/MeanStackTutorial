@@ -5,7 +5,9 @@ module.exports = function (config) {
     mongoose.connect(config.db);
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection'));
-    db.once('open', function () { console.log("database is opened"); });
+    db.once('open', function () {
+        console.log("database is opened");
+    });
 
     var userSchema = mongoose.Schema({
         firstName: String,
@@ -16,9 +18,9 @@ module.exports = function (config) {
     });
 
     userSchema.methods = {
-      authenticate: function(passwordToMatch){
-          return hashPassword(this.salt, passwordToMatch) === this.hashed_password;
-      }
+        authenticate: function (passwordToMatch) {
+            return hashPassword(this.salt, passwordToMatch) === this.hashed_password;
+        }
     };
 
     var User = mongoose.model('User', userSchema);
@@ -27,16 +29,34 @@ module.exports = function (config) {
             var salt, hash;
             salt = createSalt();
             hash = hashPassword(salt, 'JeremyCarlsten');
-            User.create({firstName: "Jeremy", lastName: "Carlsten", userName: "JeremyCarlsten", salt: salt, hashed_password: hash});
+            User.create({
+                firstName: "Jeremy",
+                lastName: "Carlsten",
+                userName: "JeremyCarlsten",
+                salt: salt,
+                hashed_password: hash
+            });
             salt = createSalt();
             hash = hashPassword(salt, '007Bond');
             User.create({firstName: "James", lastName: "Bond", userName: "007Bond", salt: salt, hashed_password: hash});
             salt = createSalt();
             hash = hashPassword(salt, 'TheWoodWhisperer');
-            User.create({firstName: "Marc ", lastName: "Spagnuolo", userName: "TheWoodWhisperer", salt: salt, hashed_password: hash});
+            User.create({
+                firstName: "Marc ",
+                lastName: "Spagnuolo",
+                userName: "TheWoodWhisperer",
+                salt: salt,
+                hashed_password: hash
+            });
             salt = createSalt();
             hash = hashPassword(salt, 'MBW');
-            User.create({firstName: "Matt", lastName: "Vanderlist", userName: "MBW", salt: salt, hashed_password: hash});
+            User.create({
+                firstName: "Matt",
+                lastName: "Vanderlist",
+                userName: "MBW",
+                salt: salt,
+                hashed_password: hash
+            });
         }
     });
 
