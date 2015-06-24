@@ -1,6 +1,7 @@
 
-angular.module('app').controller('mvMainCtrl', function($scope){
-  $scope.courses = [
+angular.module('app').controller('mvMainCtrl', function(){
+  var self = this;
+  self.courses = [
     {name: 'Learning 101', featured: true, published: new Date('12/15/14')},
     {name: 'Dont be a dummy', featured: false, published: new Date('6/8/14')},
     {name: 'Dont Suck for Dummys', featured: true, published: new Date('7/4/12')},
