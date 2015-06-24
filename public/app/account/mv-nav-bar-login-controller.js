@@ -1,21 +1,23 @@
-angular.module('app').controller('mvNavBarLoginController', function($scope, $location, mvIdentity, mvNotifier, mvAuth){
-  $scope.identity = mvIdentity;
-  $scope.signin = function(username, password){
-      mvAuth.authenticateUser(username, password).then(function(success){
-        if(success){
-          mvNotifier.notify("You have been successfully logged in!");
-        }else{
-          mvNotifier.notify("The username/Password was incorrect");
-        }
-      });
-  };
+angular.module('app').controller('mvNavBarLoginController', function ($location, mvIdentity, mvNotifier, mvAuth) {
+    var self = this;
 
-    $scope.signout = function(){
-        mvAuth.logoutUser().then(function(){
-           $scope.username = "";
-           $scope.password = "";
-           mvNotifier.notify('You have been successfully logged out. Good By!');
-           $location.path('/');
+    self.identity = mvIdentity;
+    self.signin = function (username, password) {
+        mvAuth.authenticateUser(username, password).then(function (success) {
+            if (success) {
+                mvNotifier.notify("You have been successfully logged in!");
+            } else {
+                mvNotifier.notify("The username/Password was incorrect");
+            }
+        });
+    };
+
+    self.signout = function () {
+        mvAuth.logoutUser().then(function () {
+            self.username = "";
+            self.password = "";
+            mvNotifier.notify('You have been successfully logged out. Good By!');
+            $location.path('/');
         });
     }
 });

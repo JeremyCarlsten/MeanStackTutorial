@@ -1,15 +1,15 @@
-.navbar-right(ng-controller='mvNavBarLoginController')
-    form.navbar-form(ng-hide="identity.isAuthenticated()")
+.navbar-right(ng-controller='mvNavBarLoginController as navBarCtrl')
+    form.navbar-form(ng-hide="navBarCtrl.identity.isAuthenticated()")
         .form-group
-            input.form-control(placeholder="Email@Somewhere.com", ng-model="username")
+            input.form-control(placeholder="Email@Somewhere.com", ng-model="navBarCtrl.username")
         .form-group
-            input.form-control(placeholder="Pa$$word123", ng-model="password", type="password")
-        button.btn.btn-primary(ng-click="signin(username, password)") Sign In
-    ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
+            input.form-control(placeholder="Pa$$word123", ng-model="navBarCtrl.password", type="password")
+        button.btn.btn-primary(ng-click="navBarCtrl.signin(navBarCtrl.username, navBarCtrl.password)") Sign In
+    ul.nav.navbar-nav.navbar-right(ng-show="navBarCtrl.identity.isAuthenticated()")
         li.dropdown
             a.dropdown-toggle(href="", data-toggle="dropdown")
-                | {{identity.currentUser.firstName + " " + identity.currentUser.lastName}}
+                | {{navBarCtrl.identity.currentUser.firstName + " " + navBarCtrl.identity.currentUser.lastName}}
                 b.caret
             ul.dropdown-menu
                 li
-                    a(href="", ng-click="signout()") Sign Out
+                    a(href="", ng-click="navBarCtrl.signout()") Sign Out
