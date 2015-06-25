@@ -17,8 +17,12 @@ module.exports = function (app) {
         response.end();
     });
 
+
+
     app.get('*', function (request, response) {
-        response.render('index');
+        response.render('index', {
+            bootstrappedUser: request.user
+        });
     });
 
 };
