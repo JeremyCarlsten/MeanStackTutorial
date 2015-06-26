@@ -19,7 +19,7 @@ module.exports = function (app, config) {
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
     app.use(express.static(config.rootPath + '/public'));
-    app.use(session({secret: "MultiVision unicorns"}));
+    app.use(session({secret: 'multi vision unicorns', resave:false, saveUninitialized:false}));
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(stylus.middleware({
