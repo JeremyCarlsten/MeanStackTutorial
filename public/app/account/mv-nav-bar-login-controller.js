@@ -7,7 +7,7 @@ angular.module('app').controller('mvNavBarLoginController', function ($location,
             if (success) {
                 mvNotifier.notify("You have been successfully logged in!");
             } else {
-                mvNotifier.notify("The username/Password was incorrect");
+                mvNotifier.error("The username/Password was incorrect");
             }
         });
     };
