@@ -12,7 +12,7 @@ module.exports = function (config) {
     var userSchema = mongoose.Schema({
         firstName: String,
         lastName: String,
-        userName: String,
+        username: String,
         salt: String,
         hashed_password: String
     });
@@ -32,19 +32,19 @@ module.exports = function (config) {
             User.create({
                 firstName: "Jeremy",
                 lastName: "Carlsten",
-                userName: "JeremyCarlsten",
+                username: "JeremyCarlsten",
                 salt: salt,
                 hashed_password: hash
             });
             salt = createSalt();
             hash = hashPassword(salt, '007Bond');
-            User.create({firstName: "James", lastName: "Bond", userName: "007Bond", salt: salt, hashed_password: hash});
+            User.create({firstName: "James", lastName: "Bond", username: "007Bond", salt: salt, hashed_password: hash});
             salt = createSalt();
             hash = hashPassword(salt, 'TheWoodWhisperer');
             User.create({
                 firstName: "Marc ",
                 lastName: "Spagnuolo",
-                userName: "TheWoodWhisperer",
+                username: "TheWoodWhisperer",
                 salt: salt,
                 hashed_password: hash
             });
@@ -53,7 +53,7 @@ module.exports = function (config) {
             User.create({
                 firstName: "Matt",
                 lastName: "Vanderlist",
-                userName: "MBW",
+                username: "MBW",
                 salt: salt,
                 hashed_password: hash
             });

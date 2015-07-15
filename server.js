@@ -10,10 +10,5 @@ require('./server/config/mongoose')(config);
 require('./server/config/passport')();
 require('./server/config/routes')(app);
 
-app.use(function (request, response, next) {
-    console.log(request.user); //todo: figure out why I am undefined...
-    next();
-});
-
 app.listen(config.port);
 console.log("Listening on port " + config.port + " ...");

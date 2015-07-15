@@ -1,18 +1,23 @@
 var passport = require('passport');
 
-exports.authenticate = function (request, response, next) {
-    var auth = passport.authenticate('local', function (err, user) {
-        if (err) return next(err);
-        if (!user) {
-            response.send({success: false})
+module.exports.authenticate = function (request, response, next) {
+    //request.body.username = request.body.username.toLowerCase();
+    passport.authenticate('local', function (err, user, info) {
+        if (err) {
+            return next(err);
         }
-
+        if (!user) {
+            return response.send({success: false});
+        }
         request.logIn(user, function (err) {
-            if (err) return next(err);
+            if (err) {
+                return next(err);
+            }
 
-            response.send({success: true, user: user})
+            console.log("User");
+            console.log(user);
+
+            return response.send({success: true, user: user});
         });
-    });
-
-    auth(request, response, next);
+    })(request, response, next);
 };
