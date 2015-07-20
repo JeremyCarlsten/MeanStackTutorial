@@ -1,10 +1,20 @@
-var auth = require('./auth');
+var auth = require('./auth'),
+    mongoose = require('mongoose'),
+    User = mongoose.model('User');
 
 module.exports = function (app) {
 
     app.get('/partials/*', function (request, response) {
         response.render('../../public/app/' + request.params[0])
     });
+
+    app.get('/api/users', auth.requiresRole('admin'),
+        function (request, response) {
+        User.find({}).exec(function (err, collection) {
+            response.send(collection);
+        });
+    });
+
 
     app.post('/login', auth.authenticate);
 
@@ -14,9 +24,6 @@ module.exports = function (app) {
     });
 
     app.get('*', function (request, response) {
-            console.log("bootstrapping!");
-            console.log(request.user);
-
         response.render('index', {
             bootstrappedUser: request.user
         });

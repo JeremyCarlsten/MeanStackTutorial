@@ -21,3 +21,23 @@ module.exports.authenticate = function (request, response, next) {
         });
     })(request, response, next);
 };
+
+module.exports.requiresApiLogin = function (request, response, next) {
+    if (!request.isAuthenticated()) {
+        response.status(403);
+        response.end();
+    } else {
+        next();
+    }
+};
+
+module.exports.requiresRole = function (role) {
+    return function (request, response, next) {
+        if (!request.isAuthenticated() || request.user.roles.indexOf(role) == -1) {
+            response.status(403);
+            response.end();
+        } else {
+            next();
+        }
+    }
+};
