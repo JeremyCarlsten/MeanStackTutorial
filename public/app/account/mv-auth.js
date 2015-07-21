@@ -1,4 +1,4 @@
-angular.module("app").factory("mvAuth", function ($http, mvIdentity, mvUser, $q) {
+angular.module("app").factory("mvAuth", function ($http, mvIdentity, mvUser, mvNotifier, $q) {
     return {
         authenticateUser: function (username, password) {
             var defered = $q.defer();
@@ -23,6 +23,14 @@ angular.module("app").factory("mvAuth", function ($http, mvIdentity, mvUser, $q)
             });
 
             return defered.promise;
+        },
+        authorizedCurrentUserForRoute: function(role){
+                if(mvIdentity.isAuthorized(role)){
+                    return true;
+                }else{
+                    mvNotifier.error("Whoa, That area is restricted. Please don't try that again.");
+                    return $q.reject('not authorized')
+                }
         }
     }
 });
