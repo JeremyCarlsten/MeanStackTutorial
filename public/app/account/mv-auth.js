@@ -31,6 +31,19 @@ angular.module("app").factory("mvAuth", function ($http, mvIdentity, mvUser, mvN
                     mvNotifier.error("Whoa, That area is restricted. Please don't try that again.");
                     return $q.reject('not authorized')
                 }
+        },
+
+        createUser: function(newuserData){
+            var newUser = new mvUser(newuserData);
+            var defered = $q.defer();
+            newUser.$save().then(function(){
+                mvIdentity.currentUser = newUser;
+                defered.resolve();
+            },function(response){
+                defered.reject(response.data.reason);
+            });
+
+            return defered.promise;
         }
     }
 });

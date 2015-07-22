@@ -1,6 +1,5 @@
-var mongoose = require('mongoose');
-crypto = require('crypto');
-
+var mongoose = require('mongoose'),
+    encryption = require('../utilities/encryption');
 module.exports = function (config) {
     mongoose.connect(config.db);
     var db = mongoose.connection;
@@ -20,7 +19,7 @@ module.exports = function (config) {
 
     userSchema.methods = {
         authenticate: function (passwordToMatch) {
-            return hashPassword(this.salt, passwordToMatch) === this.hashed_password;
+            return encryption.hashPassword(this.salt, passwordToMatch) === this.hashed_password;
         }
     };
 
@@ -28,8 +27,8 @@ module.exports = function (config) {
     User.find({}).exec(function (err, collection) {
         if (collection.length == 0) {
             var salt, hash;
-            salt = createSalt();
-            hash = hashPassword(salt, 'JeremyCarlsten');
+            salt = encryption.createSalt();
+            hash = encryption.hashPassword(salt, 'JeremyCarlsten');
             User.create({
                 firstName: "Jeremy",
                 lastName: "Carlsten",
@@ -38,11 +37,11 @@ module.exports = function (config) {
                 hashed_password: hash,
                 roles: ['admin']
             });
-            salt = createSalt();
-            hash = hashPassword(salt, '007Bond');
+            salt = encryption.createSalt();
+            hash = encryption.hashPassword(salt, '007Bond');
             User.create({firstName: "James", lastName: "Bond", username: "007Bond", salt: salt, hashed_password: hash});
-            salt = createSalt();
-            hash = hashPassword(salt, 'TheWoodWhisperer');
+            salt = encryption.createSalt();
+            hash = encryption.hashPassword(salt, 'TheWoodWhisperer');
             User.create({
                 firstName: "Marc ",
                 lastName: "Spagnuolo",
@@ -50,8 +49,8 @@ module.exports = function (config) {
                 salt: salt,
                 hashed_password: hash
             });
-            salt = createSalt();
-            hash = hashPassword(salt, 'MBW');
+            salt = encryption.createSalt();
+            hash = encryption.hashPassword(salt, 'MBW');
             User.create({
                 firstName: "Matt",
                 lastName: "Vanderlist",
@@ -62,14 +61,4 @@ module.exports = function (config) {
             });
         }
     });
-
-
-    function createSalt() {
-        return crypto.randomBytes(128).toString('base64')
-    }
-
-    function hashPassword(salt, password) {
-        var hmac = crypto.createHmac('sha1', salt);
-        return hmac.update(password).digest('hex');
-    }
 };
