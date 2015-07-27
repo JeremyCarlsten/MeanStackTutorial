@@ -14,14 +14,18 @@ exports.createUser = function (request, response) {
 
     User.create(userData, function (err, user) {
         if (err) {
+            console.log(err);
             if (err.toString().indexOf('E11000') > -1) {
                 err = new Error('Duplicate Username');
             }
 
-            response.send(400);
+            response.status(400);
             return response.send({reason: err.toString()})
         }
         request.login(user, function (err) {
+            console.log("Logging In");
+            console.log(err);
+            console.log(user);
             if (err) {
                 return next(err);
             }
