@@ -34,3 +34,18 @@ exports.createUser = function (request, response) {
         })
     })
 };
+
+exports.updateUser = function(request, response){
+var userUpdates = request.body;
+
+    if(request.user._id != userUpdates._id && !request.user.hasRole('admin')){
+        response.status(403);
+        return response.end();
+    }
+
+    request.user.firstName = userUpdates.firstName;
+    request.user.lastName = userUpdates.lastName;
+    request.user.userName = userUpdates.username;
+
+
+};

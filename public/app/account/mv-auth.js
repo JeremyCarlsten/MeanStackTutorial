@@ -32,11 +32,31 @@ angular.module("app").factory("mvAuth", function ($http, mvIdentity, mvUser, mvN
                     return $q.reject('not authorized')
                 }
         },
+        authorizeUserForRoute: function(){
+            if(mvIdentity.isAuthenticated()){
+                return true;
+            }else{
+                mvNotifier.error("Whoa, That area is restricted. Please don't try that again.");
+                return $q.reject('not authorized')
+            }
+        },
 
         createUser: function(newuserData){
             var newUser = new mvUser(newuserData);
             var defered = $q.defer();
             newUser.$save().then(function(){
+                mvIdentity.currentUser = newUser;
+                defered.resolve();
+            },function(response){
+                defered.reject(response.data.reason);
+            });
+
+            return defered.promise;
+        },
+        updateCurrentUser: function(userData){
+            var clone = angular.copy(mvIdentity.currentUser);
+            var defered = $q.defer();
+            clone.$update().then(function(){
                 mvIdentity.currentUser = newUser;
                 defered.resolve();
             },function(response){
